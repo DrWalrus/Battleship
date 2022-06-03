@@ -71,19 +71,6 @@ namespace BattleShipCore
             return new MatchResult(winner, Turns);
         }
 
-        private void SetupMatch(IBattleshipAI player1, IBattleshipAI player2)
-        {
-            // Initialze players and AI
-            Players[0] = new Player(MatchInfo, player1);
-            Players[1] = new Player(MatchInfo, player2);
-
-            // Random start
-            //PlayerTurn = new Random().Next(1);
-
-            CurrentPlayer.AI.Initialise();
-            OpponentPlayer.AI.Initialise();
-        }
-
         private MatchWinner ExchangeShots()
         {
             // Exchange shots until all a player's ships are sunk or the max turned are reached
@@ -91,16 +78,13 @@ namespace BattleShipCore
             {
                 // Allow the current player's AI to make a shot and pass it to the opponent player
                 Coordinate coordinate = CurrentPlayer.AI.MakeShot();
-
-                // Refactor to return result and pass it to AI
                 ShotResult shotResult = OpponentPlayer.UpdateGrid(coordinate);
-
                 CurrentPlayer.AI.HandleShotResult(shotResult);
                 
                 // Record turn info
                 Turns.Enqueue(new Turn(PlayerTurn % Players.Length, PlayerTurn, OpponentPlayer.GetShipLocations()));
 
-                // Round end
+                //Round end: check win condition
                 if((PlayerTurn % Players.Length) == 1)
                 {
                     // Check if all ships are sunk

@@ -1,5 +1,9 @@
 ﻿namespace BattleShipCore
 {
+    /**
+     * Coordinate in 2D space
+     * Holds X and Y values
+     */ 
     public struct Coordinate
     {
         public int X { get; set; }
@@ -35,7 +39,7 @@
 
 
     /**
-     * Public information about the current match
+     * Public information about the current match available to players and AI
      */
     public struct MatchInfo
     {
@@ -50,6 +54,11 @@
         }
     }
 
+    /**
+     * Info about a turn of battleship.
+     * A turn is a single player's shot
+     * Includes the player whose turn it was, and the ship locations of the opposing player
+     */ 
     public struct Turn
     {
         public int PlayerIndex { get; private set; }
@@ -67,6 +76,10 @@
 
     }
 
+    /**
+     * Result of a single battleship match
+     * Who won and record of turns
+     */ 
     public struct MatchResult
     {
         public MatchWinner Winner { get; set; }
@@ -80,6 +93,9 @@
         }
     }
 
+    /**
+     * Information about ship grid cell
+     */ 
     public struct ShipInfo
     {
         public bool IsHit { get; set; }
@@ -93,6 +109,9 @@
         }
     }
 
+    /**
+     * Information about a shot that has been made and updated the opposing player's grid
+     */ 
     public struct ShotResult
     {
         public bool IsSunk { get; private set; }

@@ -7,6 +7,12 @@ using BattleShipCore;
 
 namespace BattleShipPublicSDK
 {
+    /**
+     * Sample AI
+     * Implements IBattleshipAI interface
+     * Placees ships and makes shots randomly
+     * 
+     */
     internal class RandomBattleShipAI : IBattleshipAI
     {
         public IPlayer Player { get; set; }
