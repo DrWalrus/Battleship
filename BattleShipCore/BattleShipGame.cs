@@ -21,12 +21,12 @@ namespace BattleShipCore
 
         private Player CurrentPlayer
         {
-            get { return Players[PlayerTurn]; }
+            get { return Players[PlayerTurn % Players.Length]; }
         }
 
         private Player OpponentPlayer
         {
-            get { return Players[PlayerTurn % Players.Length];  }
+            get { return Players[(PlayerTurn + 1) % Players.Length];  }
         }
 
         public BattleShipGame()
