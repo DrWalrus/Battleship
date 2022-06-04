@@ -27,21 +27,17 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\brand\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\brand\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\brand\\source\\repos\\BattleShipTest2\\BattleShipTest\\BattleShipTest\\BattleShipPublicSDK.csproj",
+      "projectUniqueName": "C:\\Users\\brand\\Projects\\Battleship\\BattleShipTest\\BattleShipPublicSDK.csproj",
       "projectName": "BattleShipPublicSDK",
-      "projectPath": "C:\\Users\\brand\\source\\repos\\BattleShipTest2\\BattleShipTest\\BattleShipTest\\BattleShipPublicSDK.csproj",
+      "projectPath": "C:\\Users\\brand\\Projects\\Battleship\\BattleShipTest\\BattleShipPublicSDK.csproj",
       "packagesPath": "C:\\Users\\brand\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\brand\\source\\repos\\BattleShipTest2\\BattleShipTest\\BattleShipTest\\obj\\",
+      "outputPath": "C:\\Users\\brand\\Projects\\Battleship\\BattleShipTest\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
         "C:\\Users\\brand\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
@@ -57,8 +53,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\brand\\source\\repos\\BattleShipTest2\\BattleShipTest\\BattleShipCore\\BattleShipCore.csproj": {
-              "projectPath": "C:\\Users\\brand\\source\\repos\\BattleShipTest2\\BattleShipTest\\BattleShipCore\\BattleShipCore.csproj"
+            "C:\\Users\\brand\\Projects\\Battleship\\BattleShipCore\\BattleShipCore.csproj": {
+              "projectPath": "C:\\Users\\brand\\Projects\\Battleship\\BattleShipCore\\BattleShipCore.csproj"
             }
           }
         }

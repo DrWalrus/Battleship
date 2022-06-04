@@ -65,12 +65,15 @@
 
         public int TurnNumber { get; private set; }
 
+        public ShotResult ShotResult { get; private set; }
+
         public Dictionary<Coordinate, ShipInfo> ShipLocations { get; private set; }
 
-        public Turn(int playerIndex, int turnNumber, Dictionary<Coordinate, ShipInfo> shipLocations)
+        public Turn(int playerIndex, int turnNumber, ShotResult shotResult, Dictionary<Coordinate, ShipInfo> shipLocations)
         {
             PlayerIndex = playerIndex;
             TurnNumber = turnNumber;
+            ShotResult = shotResult;
             ShipLocations = shipLocations;
         }
 
@@ -86,10 +89,16 @@
 
         public Queue<Turn> Turns { get; set; }
 
-        public MatchResult(MatchWinner winner, Queue<Turn> turns)
+        public Dictionary<Coordinate, ShipInfo> Player1Ships { get; private set; }
+
+        public Dictionary<Coordinate, ShipInfo> Player2Ships { get; private set; }
+
+        public MatchResult(MatchWinner winner, Queue<Turn> turns, Dictionary<Coordinate, ShipInfo>  p1Ships, Dictionary<Coordinate, ShipInfo> p2Ships)
         {
             Winner = winner;
             Turns = turns;
+            Player1Ships = p1Ships;
+            Player2Ships = p2Ships;
         }
     }
 

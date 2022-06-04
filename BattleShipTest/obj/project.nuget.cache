@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "G1khSl2UCJ8ejoeqKkwf/ZFEpETwFv11OH7kOlGpfMWOsacJm3bTUm+kyXYUZGDr9XDdqSzCL3cLFLvHQUXnpw==",
+  "dgSpecHash": "BAyF+8rvAkAXsDhwmUqiLdQvrl3/99r1sh06FntbnwVOveJBo6krQM424eRAxoP/RjmfBm7EQ53jsHkHhZancQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\brand\\source\\repos\\BattleShipTest2\\BattleShipTest\\BattleShipTest\\BattleShipPublicSDK.csproj",
+  "projectFilePath": "C:\\Users\\brand\\Projects\\Battleship\\BattleShipTest\\BattleShipPublicSDK.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

@@ -10,3 +10,15 @@ C:\Users\brand\source\repos\BattleShipTest2\BattleShipTest\BattleShipCore\obj\De
 C:\Users\brand\source\repos\BattleShipTest2\BattleShipTest\BattleShipCore\obj\Debug\net6.0\refint\BattleShipCore.dll
 C:\Users\brand\source\repos\BattleShipTest2\BattleShipTest\BattleShipCore\obj\Debug\net6.0\BattleShipCore.pdb
 C:\Users\brand\source\repos\BattleShipTest2\BattleShipTest\BattleShipCore\obj\Debug\net6.0\ref\BattleShipCore.dll
+C:\Users\brand\Projects\Battleship\BattleShipCore\bin\Debug\net6.0\BattleShipCore.deps.json
+C:\Users\brand\Projects\Battleship\BattleShipCore\bin\Debug\net6.0\BattleShipCore.dll
+C:\Users\brand\Projects\Battleship\BattleShipCore\bin\Debug\net6.0\BattleShipCore.pdb
+C:\Users\brand\Projects\Battleship\BattleShipCore\obj\Debug\net6.0\BattleShipCore.csproj.AssemblyReference.cache
+C:\Users\brand\Projects\Battleship\BattleShipCore\obj\Debug\net6.0\BattleShipCore.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\brand\Projects\Battleship\BattleShipCore\obj\Debug\net6.0\BattleShipCore.AssemblyInfoInputs.cache
+C:\Users\brand\Projects\Battleship\BattleShipCore\obj\Debug\net6.0\BattleShipCore.AssemblyInfo.cs
+C:\Users\brand\Projects\Battleship\BattleShipCore\obj\Debug\net6.0\BattleShipCore.csproj.CoreCompileInputs.cache
+C:\Users\brand\Projects\Battleship\BattleShipCore\obj\Debug\net6.0\BattleShipCore.dll
+C:\Users\brand\Projects\Battleship\BattleShipCore\obj\Debug\net6.0\refint\BattleShipCore.dll
+C:\Users\brand\Projects\Battleship\BattleShipCore\obj\Debug\net6.0\BattleShipCore.pdb
+C:\Users\brand\Projects\Battleship\BattleShipCore\obj\Debug\net6.0\ref\BattleShipCore.dll

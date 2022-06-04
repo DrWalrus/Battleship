@@ -68,7 +68,7 @@ namespace BattleShipCore
 
             MatchWinner winner = ExchangeShots();
 
-            return new MatchResult(winner, Turns);
+            return new MatchResult(winner, Turns, Players[0].GetShipLocations(), Players[1].GetShipLocations());
         }
 
         private MatchWinner ExchangeShots()
@@ -82,7 +82,7 @@ namespace BattleShipCore
                 CurrentPlayer.AI.HandleShotResult(shotResult);
                 
                 // Record turn info
-                Turns.Enqueue(new Turn(PlayerTurn % Players.Length, PlayerTurn, OpponentPlayer.GetShipLocations()));
+                Turns.Enqueue(new Turn(PlayerTurn % Players.Length, PlayerTurn, shotResult, OpponentPlayer.GetShipLocations()));
 
                 //Round end: check win condition
                 if((PlayerTurn % Players.Length) == 1)

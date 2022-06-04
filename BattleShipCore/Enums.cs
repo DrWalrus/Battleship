@@ -16,7 +16,8 @@ namespace BattleShipCore
         Cruiser,
         Submarine,
         PatrolBoat,
-        Unknown
+        Unknown,
+        None
     }
 
     public enum Orientation

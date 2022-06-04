@@ -12,7 +12,7 @@ namespace BattleShipPublicSDK
             consoleApp.Run();
         }
 
-        private static readonly long UpdateSpeed = 250;
+        private static readonly long UpdateSpeed = 100;
 
         private long LastUpdate { get; set; }
         
@@ -23,6 +23,9 @@ namespace BattleShipPublicSDK
             BattleShipGame game = new BattleShipGame();
             MatchResult result = game.RunMatch(new RandomBattleShipAI(), new RandomBattleShipAI());
 
+            string[,] player1Grid = CreateGrid(result.Player1Ships);
+            string[,] player2Grid = CreateGrid(result.Player2Ships);
+
             LastUpdate = GetCurrentMilliSeconds();
 
             while (result.Turns.Count > 0)
@@ -30,11 +33,60 @@ namespace BattleShipPublicSDK
                 if (!Update())
                     continue;
 
-                Draw(result.Turns.Dequeue());
+                Turn turn = result.Turns.Dequeue();
+                if(turn.PlayerIndex == 0)
+                {
+                    player2Grid = UpdateGrid(turn.ShotResult, player2Grid);
+                }
+                else
+                {
+                    player1Grid = UpdateGrid(turn.ShotResult, player1Grid);
+                }
+
+                Draw(turn, player1Grid, player2Grid);
             }
 
             Console.WriteLine("Winner: " + result.Winner.ToString());
 
+        }
+
+        private string[,] UpdateGrid(ShotResult shotResult, string[,] grid)
+        {
+            
+            if(shotResult.ShipInfo.IsHit)
+            {
+                grid[shotResult.Coordinate.X, shotResult.Coordinate.Y] = "X";
+            }
+            else
+            {
+                grid[shotResult.Coordinate.X, shotResult.Coordinate.Y] = "m";
+            }
+
+
+            return grid;
+        }
+
+        private string[,] CreateGrid(Dictionary<Coordinate, ShipInfo> shipLocations)
+        {
+            string[,] grid = new string[BattleShipGame.GRID_SIZE,BattleShipGame.GRID_SIZE];
+
+            for (int i = 0; i < BattleShipGame.GRID_SIZE; i++)
+            {
+                for (int j = 0; j < BattleShipGame.GRID_SIZE; j++)
+                {
+                    Coordinate coordinate = new Coordinate(i, j);
+                    if (shipLocations.ContainsKey(coordinate))
+                    {
+                        grid[i, j] = "0";
+                    }
+                    else
+                    {
+                        grid[i, j] = "~";
+                    }
+                }
+            }
+
+            return grid;
         }
 
         private bool Update()
@@ -47,13 +99,38 @@ namespace BattleShipPublicSDK
             return true;
         }
 
-        private void Draw(Turn turn)
+        private void Draw(Turn turn, string[,] player1Grid, string[,] player2Grid)
         {
             Console.Clear();
 
             Console.WriteLine("Battleship game");
             Console.WriteLine("Turn #: " + turn.TurnNumber);
             Console.WriteLine("Player #: " + turn.PlayerIndex);
+
+            DrawGrids(player1Grid, player2Grid);
+        }
+
+        private void DrawGrids(string[,] player1Grid, string[,] player2Grid)
+        {
+            string border = "----------";
+            string spacer = "          ";
+
+            Console.WriteLine(" " + border + " " + spacer + " " + border);
+
+            for (int i = 0; i < BattleShipGame.GRID_SIZE; i++)
+            {
+                string player1Section = "";
+                string player2Section = "";
+                for (int j = 0; j < BattleShipGame.GRID_SIZE; j++)
+                {
+                    player1Section += player1Grid[i, j];
+                    player2Section += player2Grid[i, j];
+                }
+
+                Console.WriteLine("|" + player1Section + "|" + spacer + "|" + player2Section + "|");
+            }
+
+            Console.WriteLine(" " + border + " " + spacer + " " + border);
         }
 
         private long GetCurrentMilliSeconds()
