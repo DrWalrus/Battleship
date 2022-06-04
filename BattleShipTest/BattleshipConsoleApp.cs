@@ -12,16 +12,28 @@ namespace BattleShipPublicSDK
             consoleApp.Run();
         }
 
-        private static readonly long UpdateSpeed = 100;
+        private static readonly long UpdateSpeed = 250;
 
         private long LastUpdate { get; set; }
         
 
         private void Run()
         {
-            Console.WriteLine("Starting Battleship game...");
+            Console.Clear();
+                       
+            IEnumerable <Type> botTypes = GetListOfBotClasses();
+
+            if(botTypes == null || botTypes.Count() <= 0)
+            {
+                Console.WriteLine("Not AIs found. Exiting program");
+                return;
+            }
+
+            IBattleshipAI player1 = GetAIFromInput("Select AI for player 1: ", botTypes);
+            IBattleshipAI player2 = GetAIFromInput("Select AI for player 2: ", botTypes);
+
             BattleShipGame game = new BattleShipGame();
-            MatchResult result = game.RunMatch(new RandomBattleShipAI(), new RandomBattleShipAI());
+            MatchResult result = game.RunMatch(player1, player2);
 
             string[,] player1Grid = CreateGrid(result.Player1Ships);
             string[,] player2Grid = CreateGrid(result.Player2Ships);
@@ -47,7 +59,11 @@ namespace BattleShipPublicSDK
             }
 
             Console.WriteLine("Winner: " + result.Winner.ToString());
+            Console.WriteLine("Press Y to run another match or Q to quit: ");
+            string input = Console.ReadLine();
 
+            if (input != null && "Y" == input)
+                Run();
         }
 
         private string[,] UpdateGrid(ShotResult shotResult, string[,] grid)
@@ -115,6 +131,7 @@ namespace BattleShipPublicSDK
             string border = "----------";
             string spacer = "          ";
 
+            Console.WriteLine(" Player 1 " + spacer + "   Player 2");
             Console.WriteLine(" " + border + " " + spacer + " " + border);
 
             for (int i = 0; i < BattleShipGame.GRID_SIZE; i++)
@@ -136,6 +153,39 @@ namespace BattleShipPublicSDK
         private long GetCurrentMilliSeconds()
         {
             return (DateTime.UtcNow.Ticks - 621355968000000000) / 10000;
+        }
+
+        private IEnumerable<Type> GetListOfBotClasses()
+        {
+            var botTypes = from t in System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
+                        where t.GetInterfaces().Contains(typeof(IBattleshipAI)) &&
+                        t.Namespace == "BattleShipPublicSDK"
+                        select t;
+
+            return botTypes;
+        }
+
+        private IBattleshipAI GetAIFromInput(string message, IEnumerable<Type> botTypes)
+        {
+            Console.WriteLine(message);
+
+            for (int i = 0; i < botTypes.Count(); i++)
+            {
+                Console.WriteLine((i + 1).ToString() + ". " + botTypes.ElementAt(i).Name);
+            }
+
+            string input = Console.ReadLine();
+
+            if (input == null)
+                input = "1";
+
+            int selectedAI = int.Parse(input) - 1;
+
+            object ai = Activator.CreateInstance(botTypes.ElementAt(selectedAI));
+            if (ai is IBattleshipAI)
+                return ai as IBattleshipAI;
+
+            return null;
         }
     }
     
