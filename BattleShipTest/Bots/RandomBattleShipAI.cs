@@ -5,12 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using BattleShipCore;
 
-namespace BattleShipPublicSDK
+namespace BattleShipPublicSDK.Bots
 {
     /**
      * Sample AI
      * Implements IBattleshipAI interface
-     * Placees ships and makes shots randomly
+     * Places ships and makes shots randomly
+     * 
      * 
      */
     internal class RandomBattleShipAI : IBattleshipAI

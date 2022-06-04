@@ -17,7 +17,6 @@ namespace BattleShipCore
         /**
          * The player of this AI. 
          * Contains data such as the match info, current shots and max hits.
-         * If the AI is the brain, the player is the body
          */
         public IPlayer Player { get; set; }
 
@@ -32,23 +31,25 @@ namespace BattleShipCore
         public void Initialise();
 
         /**
-         * Create coordinates for a new shot. Called by the IPlayer during gameplay
+         * Create coordinates for a new shot. Called on each of your turns
          */
         public Coordinate MakeShot();
 
         /**
          * Attempt to place a ship.
          * If a ship placement is invalid the ship will not be placed, you will have fewer max hits.
+         * Called once per ship tyle
          */
         public PlaceShipResult PlaceShip(ShipType shipType);
 
         /**
-        * Called once after both players have place all ships. 
+        * Called once after both players have placed all ships, but before trading shots.
+        * MaxHits will be available here.
         */
         public void PostPlaceAllShips();
 
         /**
-         * TODO: add method to handle shot result
+         * Handle result of shot after it has been applied to the opponent's grid
          */
 
         public void HandleShotResult(ShotResult shotResult);

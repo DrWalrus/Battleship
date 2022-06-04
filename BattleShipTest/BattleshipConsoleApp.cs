@@ -2,6 +2,27 @@
 using BattleShipCore;
 using BattleShipPublicSDK;
 
+/**
+ * Console app for Battleship framework.
+ * Meant to be a demonstration of the framework's capabilities, not a production app
+ * This app will probably be made obsolete by a proper GUI app and 
+ * a proper console app capable of doing batches, tournamets, file output etc
+ * 
+ * This app allows the user to select 2 AI bots to play a single match of battleship
+ * and then displays the result to the user, turn by turn.
+ * 
+ * Grid legend:
+ * ~ = water
+ * 0 = intact ship cell
+ * X = hit ship cell
+ * m = miss
+ * 
+ * To run: open solution in Visual Studio
+ * Run/Debug
+ * Bots should be placed in the Bots folder, with the namespace "BattleShipPublicSDK.Bots"
+ * Bots must implement the IBattleshipAI interface.
+ * 
+ */
 namespace BattleShipPublicSDK
 {
     public class BattleshipConsoleApp
@@ -58,7 +79,7 @@ namespace BattleShipPublicSDK
                 Draw(turn, player1Grid, player2Grid);
             }
 
-            Console.WriteLine("Winner: " + result.Winner.ToString());
+            Console.WriteLine("Match complete! Winner: " + result.Winner.ToString());
             Console.WriteLine("Press Y to run another match or Q to quit: ");
             string input = Console.ReadLine();
 
@@ -119,11 +140,17 @@ namespace BattleShipPublicSDK
         {
             Console.Clear();
 
-            Console.WriteLine("Battleship game");
+            Console.WriteLine("Match in progress...");
             Console.WriteLine("Turn #: " + turn.TurnNumber);
             Console.WriteLine("Player #: " + turn.PlayerIndex);
 
             DrawGrids(player1Grid, player2Grid);
+
+            Console.WriteLine("Legend:");
+            Console.WriteLine("~ : water");
+            Console.WriteLine("m : miss");
+            Console.WriteLine("0 : intact ship");
+            Console.WriteLine("X : hit ship");
         }
 
         private void DrawGrids(string[,] player1Grid, string[,] player2Grid)
@@ -159,7 +186,7 @@ namespace BattleShipPublicSDK
         {
             var botTypes = from t in System.Reflection.Assembly.GetExecutingAssembly().GetTypes()
                         where t.GetInterfaces().Contains(typeof(IBattleshipAI)) &&
-                        t.Namespace == "BattleShipPublicSDK"
+                        t.Namespace == "BattleShipPublicSDK.Bots"
                         select t;
 
             return botTypes;
