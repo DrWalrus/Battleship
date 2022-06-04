@@ -12,7 +12,7 @@ namespace BattleShipPublicSDK
             consoleApp.Run();
         }
 
-        private static readonly long UpdateSpeed = 250;
+        private static readonly long UpdateSpeed = 100;
 
         private long LastUpdate { get; set; }
         
@@ -62,7 +62,7 @@ namespace BattleShipPublicSDK
             Console.WriteLine("Press Y to run another match or Q to quit: ");
             string input = Console.ReadLine();
 
-            if (input != null && "Y" == input)
+            if (input != null && "Y" == input.ToUpper())
                 Run();
         }
 
