@@ -67,37 +67,100 @@ namespace BattleShipCore
         }
         public void PlaceShip(ShipType shipType)
         {
-            PlaceShipResult placeShipResult = AI.PlaceShip(shipType);
-            
-            int shipSize = MatchInfo.ShipSizes[shipType];
-            Coordinate[] coordinates = new Coordinate[shipSize];
-            Coordinate coordinate = placeShipResult.Coordinate;
-            
-            for (int i = 0; i < shipSize; i++)
-            {
-                switch (placeShipResult.Orientation)
-                {
-                    case Orientation.Horizontal:
-                        coordinate.X += 1;
-                        break;
-                    case Orientation.Vertical:
-                        coordinate.Y += 1;
-                        break;
-                    default:
-                        break;
-                }
+            var task = RunAITask<PlaceShipResult>(() => { return AI.PlaceShip(shipType); });
 
-                if (IsValidCoordinate(coordinate) == false)
-                    return;
-                
-                coordinates[i] = coordinate;
-            }
+            PlaceShipResult placeShipResult;
+            
+            if (task.IsCompletedSuccessfully)
+                placeShipResult = task.Result;
+            else
+                return;
+
+            Coordinate[] coordinates = CreateShipCoordinates(shipType, placeShipResult);
+
+            if (coordinates.Length == 0)
+                return;
 
             foreach (Coordinate newCoordinate in coordinates)
             {
                 shipLocations.Add(newCoordinate, new ShipInfo(shipType));
             }
+        }
+
+        private Coordinate[] CreateShipCoordinates(ShipType shipType, PlaceShipResult placeShipResult)
+        {
+            Coordinate[] coordinates = new Coordinate[MatchInfo.ShipSizes[shipType]];
+            Coordinate coordinate = placeShipResult.Coordinate;
+
+            for (int i = 0; i < coordinates.Length; i++)
+            {
+                if (placeShipResult.Orientation == Orientation.Horizontal)
+                    coordinate.X += 1;
+                else
+                    coordinate.Y += 1;
+
+                if (IsValidCoordinate(coordinate) == false)
+                    return new Coordinate[0];
+
+                coordinates[i] = coordinate;
+            }
+
+            return coordinates;
+        }
+
+        public Coordinate AIMakeShot()
+        {
+            Coordinate coordinate = new Coordinate(-1, -1);
+            var task = RunAITask<Coordinate>(() => { return AI.MakeShot(); });
             
+            if (task.IsCompletedSuccessfully)
+            {
+                coordinate = task.Result;
+            }
+
+            return coordinate;
+        }
+
+        public void AIInitialise()
+        {
+            RunAITask(() =>
+            {
+                AI.Initialise();
+            });
+        }
+
+        public void AIPostPlaceAllShips()
+        {
+            RunAITask(() =>
+            {
+                AI.PostPlaceAllShips();
+            });
+        }
+
+        public void AIHandleShotResult(ShotResult shotResult)
+        {
+            RunAITask(() =>
+            {
+                AI.HandleShotResult(shotResult);
+            });
+        }
+
+        protected Task RunAITask(Action action)
+        {
+            var task = Task.Run(action);
+
+            task.Wait(TimeSpan.FromSeconds(2));
+
+            return task;
+        }
+
+        protected Task<T> RunAITask<T>(Func<T> func)
+        {
+            var task = Task<T>.Run(func);
+
+            task.Wait(TimeSpan.FromSeconds(2));
+
+            return task;
         }
 
         public bool IsValidCoordinate(Coordinate coordinate)
@@ -113,6 +176,5 @@ namespace BattleShipCore
         {
             return new Dictionary<Coordinate, ShipInfo>(shipLocations);
         }
-
     }
 }

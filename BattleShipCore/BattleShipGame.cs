@@ -56,15 +56,15 @@ namespace BattleShipCore
             Players[0] = new Player(MatchInfo, player1);
             Players[1] = new Player(MatchInfo, player2);
 
-            CurrentPlayer.AI.Initialise();
-            OpponentPlayer.AI.Initialise();
+            CurrentPlayer.AIInitialise();
+            OpponentPlayer.AIInitialise();
 
             // Place ships
             CurrentPlayer.PlaceAllShips();
             OpponentPlayer.PlaceAllShips();
 
-            CurrentPlayer.AI.PostPlaceAllShips();
-            OpponentPlayer.AI.PostPlaceAllShips();
+            CurrentPlayer.AIPostPlaceAllShips();
+            OpponentPlayer.AIPostPlaceAllShips();
 
             MatchWinner winner = ExchangeShots();
 
@@ -77,9 +77,9 @@ namespace BattleShipCore
             while (MAX_TURNS > PlayerTurn)
             {
                 // Allow the current player's AI to make a shot and pass it to the opponent player
-                Coordinate coordinate = CurrentPlayer.AI.MakeShot();
+                Coordinate coordinate = CurrentPlayer.AIMakeShot();
                 ShotResult shotResult = OpponentPlayer.UpdateGrid(coordinate);
-                CurrentPlayer.AI.HandleShotResult(shotResult);
+                CurrentPlayer.AIHandleShotResult(shotResult);
                 
                 // Record turn info
                 Turns.Enqueue(new Turn(PlayerTurn % Players.Length, PlayerTurn, shotResult, OpponentPlayer.GetShipLocations()));
