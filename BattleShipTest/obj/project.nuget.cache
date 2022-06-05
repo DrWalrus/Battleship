@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "BAyF+8rvAkAXsDhwmUqiLdQvrl3/99r1sh06FntbnwVOveJBo6krQM424eRAxoP/RjmfBm7EQ53jsHkHhZancQ==",
+  "dgSpecHash": "SRRZZt5Mh/ccrA9f33pH086mzohTwRH+StqI3MpHNZEpN4zMkW7l15Ar2rIDGpE558FtEpsfHh5Q3kXWJi4JaA==",
   "success": true,
   "projectFilePath": "C:\\Users\\brand\\Projects\\Battleship\\BattleShipTest\\BattleShipPublicSDK.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\brand\\.nuget\\packages\\raylib-cs\\4.0.0.1\\raylib-cs.4.0.0.1.nupkg.sha512",
+    "C:\\Users\\brand\\.nuget\\packages\\system.numerics.vectors\\4.5.0\\system.numerics.vectors.4.5.0.nupkg.sha512"
+  ],
   "logs": []
 }
