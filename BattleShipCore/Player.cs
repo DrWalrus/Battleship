@@ -17,6 +17,7 @@ namespace BattleShipCore
         }
 
         private Dictionary<Coordinate, ShipInfo> shipLocations = new Dictionary<Coordinate, ShipInfo>();
+
         public MatchInfo MatchInfo { get; private set; }
 
         public int MaxHits { get; private set; }
@@ -38,8 +39,8 @@ namespace BattleShipCore
          */
         public ShotResult UpdateGrid(Coordinate coordinate)
         {
-            if (!shipLocations.ContainsKey(coordinate))
-                return new ShotResult(new ShipInfo(ShipType.Unknown), coordinate, false);
+            if (shipLocations.ContainsKey(coordinate))
+                return new ShotResult(new ShipInfo(ShipType.Empty), coordinate, false);
 
             ShipInfo info = shipLocations[coordinate];
             info.IsHit = true;

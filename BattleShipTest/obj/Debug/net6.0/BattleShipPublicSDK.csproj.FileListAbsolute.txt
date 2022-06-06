@@ -39,3 +39,8 @@ C:\Users\brand\Projects\Battleship\BattleShipTest\bin\Debug\net6.0\runtimes\linu
 C:\Users\brand\Projects\Battleship\BattleShipTest\bin\Debug\net6.0\runtimes\osx-x64\native\libraylib.dylib
 C:\Users\brand\Projects\Battleship\BattleShipTest\bin\Debug\net6.0\runtimes\win-x64\native\raylib.dll
 C:\Users\brand\Projects\Battleship\BattleShipTest\bin\Debug\net6.0\runtimes\win-x86\native\raylib.dll
+C:\Users\brand\source\repos\BattleShipTest2\BattleShipTest\BattleShipTest\bin\Debug\net6.0\Raylib-cs.dll
+C:\Users\brand\source\repos\BattleShipTest2\BattleShipTest\BattleShipTest\bin\Debug\net6.0\runtimes\linux-x64\native\libraylib.so
+C:\Users\brand\source\repos\BattleShipTest2\BattleShipTest\BattleShipTest\bin\Debug\net6.0\runtimes\osx-x64\native\libraylib.dylib
+C:\Users\brand\source\repos\BattleShipTest2\BattleShipTest\BattleShipTest\bin\Debug\net6.0\runtimes\win-x64\native\raylib.dll
+C:\Users\brand\source\repos\BattleShipTest2\BattleShipTest\BattleShipTest\bin\Debug\net6.0\runtimes\win-x86\native\raylib.dll
