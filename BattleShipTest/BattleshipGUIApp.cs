@@ -137,7 +137,7 @@ namespace BattleShipPublicSDK
                 for (int i = 0; i < items.Length; i++)
                 {
                     float yOffset = (rectangle.y + (50 * (i + 1)));
-                    bool isItemPressed = DrawButton(items[i], new Rectangle(rectangle.x + 5, yOffset, rectangle.width - 5, rectangle.height), false);
+                    bool isItemPressed = DrawButton(items[i], new Rectangle(rectangle.x + 1, yOffset, rectangle.width - 2, rectangle.height), false);
                     if (isItemPressed)
                     {
                         selected = i;
