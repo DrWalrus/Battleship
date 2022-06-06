@@ -45,9 +45,9 @@ namespace BattleShipPublicSDK
 
         Rectangle rectRunMatch = new Rectangle(300, 50, 135, 25);
 
-        Rectangle rectSelectP1 = new Rectangle(50, 50, 135, 25);
+        Rectangle rectSelectP1 = new Rectangle(50, 50, 200, 25);
 
-        Rectangle rectSelectP2 = new Rectangle(600, 50, 135, 25);
+        Rectangle rectSelectP2 = new Rectangle(600, 50, 200, 25);
 
         IEnumerable<Type> botTypes;
 
@@ -120,7 +120,6 @@ namespace BattleShipPublicSDK
             Color main = mouseOver ? altColor : mainColor;
             Color alt = !mouseOver ? altColor : mainColor;
 
-
             String text = "...";
             if(selected >= 0 && items != null && selected < items.Length)
                 text = items[selected];
@@ -131,15 +130,14 @@ namespace BattleShipPublicSDK
 
             Rectangle openRect = new Rectangle((int)rectangle.x, (int)rectangle.y, (int)rectangle.width, (int)rectangle.height + (items.Length * 50));
 
-
             if (isOpen)
             {
-                Raylib.DrawRectangleLines((int)openRect.x, (int)openRect.y, (int)openRect.width, (int)openRect.height + (items.Length * 50), altColor);
+                Raylib.DrawRectangleLines((int)openRect.x, (int)openRect.y, (int)openRect.width, (int)openRect.height + (items.Length * 50), mainColor);
 
                 for (int i = 0; i < items.Length; i++)
                 {
                     float yOffset = (rectangle.y + (50 * (i + 1)));
-                    bool isItemPressed = DrawButton(items[i], new Rectangle(rectangle.x, yOffset, rectangle.height, rectangle.width), false);
+                    bool isItemPressed = DrawButton(items[i], new Rectangle(rectangle.x + 5, yOffset, rectangle.width - 5, rectangle.height), false);
                     if (isItemPressed)
                     {
                         selected = i;
