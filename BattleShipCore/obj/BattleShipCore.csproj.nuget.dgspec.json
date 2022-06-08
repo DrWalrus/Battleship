@@ -1,18 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\brand\\Projects\\Battleship\\BattleShipCore\\BattleShipCore.csproj": {}
+    "C:\\Users\\brand\\source\\repos\\BattleShipTest2\\BattleShipTest\\BattleShipCore\\BattleShipCore.csproj": {}
   },
   "projects": {
-    "C:\\Users\\brand\\Projects\\Battleship\\BattleShipCore\\BattleShipCore.csproj": {
+    "C:\\Users\\brand\\source\\repos\\BattleShipTest2\\BattleShipTest\\BattleShipCore\\BattleShipCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\brand\\Projects\\Battleship\\BattleShipCore\\BattleShipCore.csproj",
+        "projectUniqueName": "C:\\Users\\brand\\source\\repos\\BattleShipTest2\\BattleShipTest\\BattleShipCore\\BattleShipCore.csproj",
         "projectName": "BattleShipCore",
-        "projectPath": "C:\\Users\\brand\\Projects\\Battleship\\BattleShipCore\\BattleShipCore.csproj",
+        "projectPath": "C:\\Users\\brand\\source\\repos\\BattleShipTest2\\BattleShipTest\\BattleShipCore\\BattleShipCore.csproj",
         "packagesPath": "C:\\Users\\brand\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\brand\\Projects\\Battleship\\BattleShipCore\\obj\\",
+        "outputPath": "C:\\Users\\brand\\source\\repos\\BattleShipTest2\\BattleShipTest\\BattleShipCore\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
           "C:\\Users\\brand\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"

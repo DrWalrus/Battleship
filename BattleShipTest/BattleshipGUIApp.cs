@@ -39,23 +39,32 @@ namespace BattleShipPublicSDK
 
         int p2Index = -1;
 
-        Color mainColor = Color.BEIGE;
+        Color mainColor = Color.RAYWHITE;
 
-        Color altColor = Color.DARKGRAY;
+        Color altColor = Color.BLACK;
 
         Rectangle rectRunMatch = new Rectangle(300, 50, 135, 25);
 
-        Rectangle rectSelectP1 = new Rectangle(50, 50, 200, 25);
+        Rectangle rectSelectP1 = new Rectangle(50, 50, 225, 25);
 
-        Rectangle rectSelectP2 = new Rectangle(600, 50, 200, 25);
+        Rectangle rectSelectP2 = new Rectangle(500, 50, 225, 25);
+
+        string winnerText = "";
 
         IEnumerable<Type> botTypes;
+
+        Queue<Turn> turns = new Queue<Turn>();
+
+        Color[,] p1Grid = new Color[BattleShipGame.GRID_SIZE, BattleShipGame.GRID_SIZE];
+        Color[,] p2Grid = new Color[BattleShipGame.GRID_SIZE, BattleShipGame.GRID_SIZE];
 
         private void Run()
         {
             botTypes = GetListOfBotClasses();
             string[] bots = (from b in botTypes
                              select b.Name).ToArray();
+
+            game = new BattleShipGame();
             Raylib.InitWindow(800, 480, "Battleship");
             Raylib.SetTargetFPS(60);
             while (!Raylib.WindowShouldClose())
@@ -63,25 +72,74 @@ namespace BattleShipPublicSDK
                 
 
                 Raylib.BeginDrawing();
-                Raylib.ClearBackground(Color.DARKGRAY);
+                Raylib.ClearBackground(altColor);
 
                 bool isRunPressed = DrawButton("Run Match", rectRunMatch, true);
-                               
 
+                if(isRunPressed && p1Index >= 0 && p2Index >= 0)
+                {
+                    winnerText = "";
+
+                    IBattleshipAI p1 = InstantiateAI(p1Index);
+                    IBattleshipAI p2 = InstantiateAI(p2Index);
+
+                    p1Grid.
+
+                    MatchResult result = game.RunMatch(p1, p2);
+                    result.
+                }
+
+                if(turns.Count > 0)
+                {
+                    Turn turn = turns.Dequeue();
+
+                }
+
+                
                 DrawDropdown(bots, rectSelectP1, ref p1Index, ref isP1ListOpen);
 
-                //DrawDropdown(bots, rectSelectP2, ref p2Index, ref isP2ListOpen);
+                DrawDropdown(bots, rectSelectP2, ref p2Index, ref isP2ListOpen);
 
                 
 
                 Raylib.EndDrawing();
 
-                //Raylib.DrawText("Winner", 315, 55, 20, mainColor);
+                Raylib.DrawText(winnerText, 20, 430, 20, mainColor);
 
 
             }
 
             Raylib.CloseWindow();
+        }
+
+        private IBattleshipAI InstantiateAI(int selectedAI)
+        {
+            object ai = Activator.CreateInstance(botTypes.ElementAt(selectedAI));
+
+            if (ai is IBattleshipAI)
+                return ai as IBattleshipAI;
+
+            return null;
+        }
+
+        private Color[,] InitialiseGrid()
+        {
+            Color[,] grid = new Color[BattleShipGame.GRID_SIZE, BattleShipGame.GRID_SIZE];
+            for (int i = 0; i < BattleShipGame.GRID_SIZE; i++)
+            {
+                for (int j = 0; j < BattleShipGame.GRID_SIZE; j++)
+                {
+                    Coordinate coordinate = new Coordinate(i, j);
+                    if (shipLocations.ContainsKey(coordinate))
+                    {
+                        grid[i, j] = "0";
+                    }
+                    else
+                    {
+                        grid[i, j] = "~";
+                    }
+                }
+            }
         }
 
         private IEnumerable<Type> GetListOfBotClasses()
