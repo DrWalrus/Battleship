@@ -38,7 +38,7 @@ namespace BattleShipPublicSDK
 
         static public void DrawGrid(Color[,] grid, Vector2 location)
         {
-            int cellSize = 10;
+            int cellSize = 20;
 
             for (int i = 0; i < BattleShipGame.GRID_SIZE; i++)
             {

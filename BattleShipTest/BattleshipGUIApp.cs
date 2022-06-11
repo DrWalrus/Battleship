@@ -30,6 +30,10 @@ namespace BattleShipPublicSDK
             guiApp.Run();
         }
 
+        private static readonly long UpdateSpeed = 100;
+
+        private long lastUpdate = 0;
+
         BattleShipGame game;
 
         bool isP1ListOpen = false;
@@ -70,6 +74,7 @@ namespace BattleShipPublicSDK
                              select b.Name).ToArray();
 
             game = new BattleShipGame();
+            lastUpdate = GetCurrentMilliSeconds();
             Raylib.InitWindow(800, 480, "Battleship");
             Raylib.SetTargetFPS(60);
             while (!Raylib.WindowShouldClose())
@@ -87,16 +92,28 @@ namespace BattleShipPublicSDK
                     IBattleshipAI p2 = InstantiateAI(p2Index);
 
                     MatchResult result = game.RunMatch(p1, p2);
+                    p1Grid = InitialiseGrid(result.Player1Ships);
+                    p2Grid = InitialiseGrid(result.Player2Ships);
+
+                    turns = result.Turns;
                 }
 
-                if(turns.Count > 0)
+
+                if (turns.Count > 0 && (GetCurrentMilliSeconds() - lastUpdate >= UpdateSpeed))
                 {
+                    lastUpdate = GetCurrentMilliSeconds();
                     Turn turn = turns.Dequeue();
-
-
+                    if (turn.PlayerIndex == 0)
+                    {
+                        UpdateGrid(ref p2Grid, turn.ShotResult);
+                    }
+                    else
+                    {
+                        UpdateGrid(ref p1Grid, turn.ShotResult);
+                    }
                 }
 
-                ComponentLib.DrawGrid(p1Grid, p2GridLocation);
+                ComponentLib.DrawGrid(p1Grid, p1GridLocation);
 
                 ComponentLib.DrawGrid(p2Grid, p2GridLocation);
 
@@ -158,14 +175,24 @@ namespace BattleShipPublicSDK
             return botTypes;
         }
 
-
-        
-
-        private void UpdateGrid(ref Color[,] grid)
+        private void UpdateGrid(ref Color[,] grid, ShotResult shotResult)
         {
+            if (shotResult.ShipInfo.IsHit)
+            {
+                grid[shotResult.Coordinate.X, shotResult.Coordinate.Y] = Color.RED;
+            }
+            else
+            {
+                grid[shotResult.Coordinate.X, shotResult.Coordinate.Y] = Color.DARKBLUE;
+            }
 
         }
 
-        
+        private long GetCurrentMilliSeconds()
+        {
+            return (DateTime.UtcNow.Ticks - 621355968000000000) / 10000;
+        }
+
+
     }
 }
