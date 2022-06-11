@@ -67,14 +67,12 @@
 
         public ShotResult ShotResult { get; private set; }
 
-        public Dictionary<Coordinate, ShipInfo> ShipLocations { get; private set; }
 
-        public Turn(int playerIndex, int turnNumber, ShotResult shotResult, Dictionary<Coordinate, ShipInfo> shipLocations)
+        public Turn(int playerIndex, int turnNumber, ShotResult shotResult)
         {
             PlayerIndex = playerIndex;
             TurnNumber = turnNumber;
             ShotResult = shotResult;
-            ShipLocations = shipLocations;
         }
 
     }

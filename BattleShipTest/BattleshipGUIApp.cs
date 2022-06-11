@@ -3,6 +3,7 @@ using Raylib_cs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,6 +50,10 @@ namespace BattleShipPublicSDK
 
         Rectangle rectSelectP2 = new Rectangle(500, 50, 225, 25);
 
+        Vector2 p1GridLocation = new Vector2(50, 75);
+
+        Vector2 p2GridLocation = new Vector2(500, 75);
+
         string winnerText = "";
 
         IEnumerable<Type> botTypes;
@@ -69,8 +74,6 @@ namespace BattleShipPublicSDK
             Raylib.SetTargetFPS(60);
             while (!Raylib.WindowShouldClose())
             {
-                
-
                 Raylib.BeginDrawing();
                 Raylib.ClearBackground(altColor);
 
@@ -83,19 +86,20 @@ namespace BattleShipPublicSDK
                     IBattleshipAI p1 = InstantiateAI(p1Index);
                     IBattleshipAI p2 = InstantiateAI(p2Index);
 
-                    p1Grid.
-
                     MatchResult result = game.RunMatch(p1, p2);
-                    result.
                 }
 
                 if(turns.Count > 0)
                 {
                     Turn turn = turns.Dequeue();
 
+
                 }
 
-                
+                DrawGrid(p1Grid);
+
+                DrawGrid(p2Grid);
+
                 DrawDropdown(bots, rectSelectP1, ref p1Index, ref isP1ListOpen);
 
                 DrawDropdown(bots, rectSelectP2, ref p2Index, ref isP2ListOpen);
@@ -122,7 +126,7 @@ namespace BattleShipPublicSDK
             return null;
         }
 
-        private Color[,] InitialiseGrid()
+        private Color[,] InitialiseGrid(Dictionary<Coordinate, ShipInfo> shipLocations)
         {
             Color[,] grid = new Color[BattleShipGame.GRID_SIZE, BattleShipGame.GRID_SIZE];
             for (int i = 0; i < BattleShipGame.GRID_SIZE; i++)
@@ -132,14 +136,16 @@ namespace BattleShipPublicSDK
                     Coordinate coordinate = new Coordinate(i, j);
                     if (shipLocations.ContainsKey(coordinate))
                     {
-                        grid[i, j] = "0";
+                        grid[i, j] = Color.GRAY;
                     }
                     else
                     {
-                        grid[i, j] = "~";
+                        grid[i, j] = Color.BLUE;
                     }
                 }
             }
+
+            return grid;
         }
 
         private IEnumerable<Type> GetListOfBotClasses()
@@ -168,6 +174,21 @@ namespace BattleShipPublicSDK
 
             return mouseOver && Raylib.IsMouseButtonPressed((MouseButton)MouseButton.MOUSE_BUTTON_LEFT);
         }
+
+        private void DrawGrid(Color[,] grid, Vector2 location )
+        {
+            int cellSize = 10;
+
+            for (int i = 0; i < BattleShipGame.GRID_SIZE; i++)
+            {
+                for (int j = 0; j < BattleShipGame.GRID_SIZE; j++)
+                {
+                    Raylib.DrawRectangle((int)location.X + (i+1)*cellSize, (int)location.Y + (j + 1) * cellSize, cellSize, cellSize, grid[i, j]);
+                }
+            }
+        }
+
+        private Color[,] UpdateGrid(Color[,] grid)
 
         private void DrawDropdown(string[] items, Rectangle rectangle, ref int selected, ref bool isOpen)
         {

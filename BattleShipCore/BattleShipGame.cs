@@ -76,7 +76,7 @@
                 CurrentPlayer.AIHandleShotResult(shotResult);
                 
                 // Record turn info
-                Turns.Enqueue(new Turn(PlayerTurn % Players.Length, PlayerTurn, shotResult, OpponentPlayer.GetShipLocations()));
+                Turns.Enqueue(new Turn(PlayerTurn % Players.Length, PlayerTurn, shotResult));
 
                 //Round end: check win condition
                 if((PlayerTurn % Players.Length) == 1)

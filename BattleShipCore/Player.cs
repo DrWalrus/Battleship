@@ -9,12 +9,7 @@ namespace BattleShipCore
 {
     internal class Player: IPlayer
     {
-        public Player(MatchInfo matchInfo, IBattleshipAI ai)
-        {
-            MatchInfo = matchInfo;
-            AI = ai;
-            AI.Player = this;
-        }
+        public static readonly double AI_TIME_LIMIT_SECONDS = 2;
 
         private Dictionary<Coordinate, ShipInfo> shipLocations = new Dictionary<Coordinate, ShipInfo>();
 
@@ -24,7 +19,17 @@ namespace BattleShipCore
 
         public IBattleshipAI AI { get; private set; }
 
+        public Player(MatchInfo matchInfo, IBattleshipAI ai)
+        {
+            MatchInfo = matchInfo;
+            AI = ai;
+            AI.Player = this;
+        }
 
+
+        /**
+         * Get the number of hits this player has left
+         */
         public int GetHitsLeft()
         {
             var search = from x in shipLocations.Values
@@ -35,11 +40,12 @@ namespace BattleShipCore
         }
 
         /**
-         * TODO: change to return result object, return ship type and is sunk
+         * Apply given coordinate to the grid.
+         * Will shot result with information about hit or miss
          */
         public ShotResult UpdateGrid(Coordinate coordinate)
         {
-            if (shipLocations.ContainsKey(coordinate))
+            if (!shipLocations.ContainsKey(coordinate))
                 return new ShotResult(new ShipInfo(ShipType.Empty), coordinate, false);
 
             ShipInfo info = shipLocations[coordinate];
@@ -49,6 +55,7 @@ namespace BattleShipCore
             return new ShotResult(info, coordinate, IsShipSunk(info.ShipType));
         }
 
+        
         private bool IsShipSunk(ShipType shipType)
         {
             var search = from x in shipLocations.Values
@@ -58,6 +65,9 @@ namespace BattleShipCore
             return search.Count() >= MatchInfo.ShipSizes[shipType];
         }
 
+        /**
+         * Place all ships available in the MatchInfo
+         */ 
         public void PlaceAllShips()
         {
             foreach (var ship in MatchInfo.ShipSizes.Keys)
@@ -67,9 +77,15 @@ namespace BattleShipCore
 
             MaxHits = shipLocations.Count;
         }
+
+        /**
+         * Attempt to place the given ship type
+         * This is passed to the AI to do with a time limit
+         * The AI's ship is added if the coordinates are valid
+         */
         public void PlaceShip(ShipType shipType)
         {
-            var task = RunAITask<PlaceShipResult>(() => { return AI.PlaceShip(shipType); });
+           var task = RunAITask<PlaceShipResult>(() => { return AI.PlaceShip(shipType); });
 
             PlaceShipResult placeShipResult;
             
@@ -89,6 +105,9 @@ namespace BattleShipCore
             }
         }
 
+        /**
+         * Create set of coordinates for the proposed ship placement and ship type
+         */ 
         private Coordinate[] CreateShipCoordinates(ShipType shipType, PlaceShipResult placeShipResult)
         {
             Coordinate[] coordinates = new Coordinate[MatchInfo.ShipSizes[shipType]];
@@ -110,6 +129,10 @@ namespace BattleShipCore
             return coordinates;
         }
 
+        /**
+         * Attempt to make a shot.
+         * Pass to the AI to create a coordinate with a time limit
+         */ 
         public Coordinate AIMakeShot()
         {
             Coordinate coordinate = new Coordinate(-1, -1);
@@ -123,6 +146,9 @@ namespace BattleShipCore
             return coordinate;
         }
 
+        /**
+         * Run AI Initialise hook
+         */
         public void AIInitialise()
         {
             RunAITask(() =>
@@ -131,6 +157,9 @@ namespace BattleShipCore
             });
         }
 
+        /**
+         * Run AI post place all ships hook
+         */
         public void AIPostPlaceAllShips()
         {
             RunAITask(() =>
@@ -139,6 +168,9 @@ namespace BattleShipCore
             });
         }
 
+        /**
+         * Pass the shot result to the AI
+         */
         public void AIHandleShotResult(ShotResult shotResult)
         {
             RunAITask(() =>
@@ -147,24 +179,41 @@ namespace BattleShipCore
             });
         }
 
+        /**
+         * Run the given AI method that does not return a value.
+         * Limits amount of time AI method can run
+         */
         protected Task RunAITask(Action action)
         {
-            var task = Task.Run(action);
-
-            task.Wait(TimeSpan.FromSeconds(2));
-
-            return task;
+            return AwaitTask(Task.Run(action));
         }
 
+        /**
+         * Run the given AI method that returns a value of type T
+         * Limits amount of time AI method can run
+         */
         protected Task<T> RunAITask<T>(Func<T> func)
         {
-            var task = Task<T>.Run(func);
+            return (Task<T>)AwaitTask(Task<T>.Run(func));
+        }
 
-            task.Wait(TimeSpan.FromSeconds(2));
+        /**
+         * Wait for given task to complete. Used for AI methods
+         * Limits amount of time the task can run
+         */
+        protected Task AwaitTask(Task task)
+        {
+            if (task != null)
+            {
+                task.Wait(TimeSpan.FromSeconds(AI_TIME_LIMIT_SECONDS));
+            }
 
             return task;
         }
 
+        /**
+         * Check if the given coordinate is within the grid and not currently in this player's ship locations
+         */ 
         public bool IsValidCoordinate(Coordinate coordinate)
         {
             if (coordinate.X < 0 || coordinate.Y < 0 || coordinate.X > MatchInfo.GridSize || coordinate.Y > MatchInfo.GridSize ||
@@ -174,6 +223,9 @@ namespace BattleShipCore
             return true;
         }
 
+        /**
+         * Get a copy of this player's ship locations
+         */ 
         public Dictionary<Coordinate, ShipInfo> GetShipLocations()
         {
             return new Dictionary<Coordinate, ShipInfo>(shipLocations);
