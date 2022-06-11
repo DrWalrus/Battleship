@@ -77,7 +77,7 @@ namespace BattleShipPublicSDK
                 Raylib.BeginDrawing();
                 Raylib.ClearBackground(altColor);
 
-                bool isRunPressed = DrawButton("Run Match", rectRunMatch, true);
+                bool isRunPressed = ComponentLib.DrawButton("Run Match", rectRunMatch, true);
 
                 if(isRunPressed && p1Index >= 0 && p2Index >= 0)
                 {
@@ -96,13 +96,13 @@ namespace BattleShipPublicSDK
 
                 }
 
-                DrawGrid(p1Grid);
+                ComponentLib.DrawGrid(p1Grid, p2GridLocation);
 
-                DrawGrid(p2Grid);
+                ComponentLib.DrawGrid(p2Grid, p2GridLocation);
 
-                DrawDropdown(bots, rectSelectP1, ref p1Index, ref isP1ListOpen);
+                ComponentLib.DrawDropdown(bots, rectSelectP1, ref p1Index, ref isP1ListOpen);
 
-                DrawDropdown(bots, rectSelectP2, ref p2Index, ref isP2ListOpen);
+                ComponentLib.DrawDropdown(bots, rectSelectP2, ref p2Index, ref isP2ListOpen);
 
                 
 
@@ -159,75 +159,13 @@ namespace BattleShipPublicSDK
         }
 
 
-        private bool DrawButton(string text, Rectangle rectangle, bool outline)
+        
+
+        private void UpdateGrid(ref Color[,] grid)
         {
-            bool mouseOver = Raylib.CheckCollisionPointRec(Raylib.GetMousePosition(), rectangle);
-            Color main = mouseOver ? altColor : mainColor;
-            Color alt =  !mouseOver ? altColor : mainColor;
 
-            Raylib.DrawRectangle((int)rectangle.x, (int)rectangle.y, (int)rectangle.width, (int)rectangle.height, alt);
-            
-            if(outline)
-                Raylib.DrawRectangleLines((int)rectangle.x, (int)rectangle.y, (int)rectangle.width, (int)rectangle.height, main);
-            
-            Raylib.DrawText(text, (int)rectangle.x + 15, (int)rectangle.y + 5, 20, main);
-
-            return mouseOver && Raylib.IsMouseButtonPressed((MouseButton)MouseButton.MOUSE_BUTTON_LEFT);
         }
 
-        private void DrawGrid(Color[,] grid, Vector2 location )
-        {
-            int cellSize = 10;
-
-            for (int i = 0; i < BattleShipGame.GRID_SIZE; i++)
-            {
-                for (int j = 0; j < BattleShipGame.GRID_SIZE; j++)
-                {
-                    Raylib.DrawRectangle((int)location.X + (i+1)*cellSize, (int)location.Y + (j + 1) * cellSize, cellSize, cellSize, grid[i, j]);
-                }
-            }
-        }
-
-        private Color[,] UpdateGrid(Color[,] grid)
-
-        private void DrawDropdown(string[] items, Rectangle rectangle, ref int selected, ref bool isOpen)
-        {
-            if(items == null)
-                items = new string[0];
-
-            bool mouseOver = Raylib.CheckCollisionPointRec(Raylib.GetMousePosition(), rectangle);
-            Color main = mouseOver ? altColor : mainColor;
-            Color alt = !mouseOver ? altColor : mainColor;
-
-            String text = "...";
-            if(selected >= 0 && items != null && selected < items.Length)
-                text = items[selected];
-
-            bool isPressed = DrawButton(text, rectangle, true);
-
-            if(isPressed) isOpen = !isOpen;
-
-            Rectangle openRect = new Rectangle((int)rectangle.x, (int)rectangle.y, (int)rectangle.width, (int)rectangle.height + (items.Length * 50));
-
-            if (isOpen)
-            {
-                Raylib.DrawRectangleLines((int)openRect.x, (int)openRect.y, (int)openRect.width, (int)openRect.height + (items.Length * 50), mainColor);
-
-                for (int i = 0; i < items.Length; i++)
-                {
-                    float yOffset = (rectangle.y + (50 * (i + 1)));
-                    bool isItemPressed = DrawButton(items[i], new Rectangle(rectangle.x + 1, yOffset, rectangle.width - 2, rectangle.height), false);
-                    if (isItemPressed)
-                    {
-                        selected = i;
-                        isOpen = false;
-                    }
-
-                }
-
-                
-            }
-            
-        }
+        
     }
 }
