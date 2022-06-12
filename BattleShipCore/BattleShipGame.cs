@@ -6,12 +6,10 @@
         public static readonly int GRID_SIZE = 10;
         public static readonly int MAX_TURNS = (GRID_SIZE * GRID_SIZE * 2) + 1;
 
-        private Player[] Players { get; set; } = new Player[2];
         private int PlayerTurn = 0;
+        private Player[] Players { get; set; } = new Player[2];
         private MatchInfo MatchInfo { get; set; }
-
         private Queue<Turn> Turns { get; set; }
-
 
         private Player CurrentPlayer
         {
@@ -32,7 +30,6 @@
             shipSizes.Add(ShipType.Submarine, 3);
             shipSizes.Add(ShipType.PatrolBoat, 2);
 
-
             MatchInfo = new MatchInfo(GRID_SIZE, shipSizes);
         }
 
@@ -44,8 +41,9 @@
          */
         public MatchResult RunMatch(IBattleshipAI player1, IBattleshipAI player2)
         {
+            PlayerTurn = 0;
             Turns = new Queue<Turn>();
-
+            
             // Initialze players and AI
             Players[0] = new Player(MatchInfo, player1);
             Players[1] = new Player(MatchInfo, player2);

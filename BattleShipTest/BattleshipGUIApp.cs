@@ -9,28 +9,16 @@ using System.Threading.Tasks;
 
 namespace BattleShipPublicSDK
 {
-    public struct UIElement
-    {
-        Rectangle Bounds { get; set; }
-        bool Visible { get; set; }
-
-        Color Color { get; set; }
-
-        Color AltColor { get; set; }
-
-        bool Border { get; set; }
-        
-    }
+    
     internal class BattleshipGUIApp
     {
         public static void Main()
         {
-            
             BattleshipGUIApp guiApp = new BattleshipGUIApp();
             guiApp.Run();
         }
 
-        private static readonly long UpdateSpeed = 100;
+        private static readonly long UpdateSpeed = 50;
 
         private long lastUpdate = 0;
 
@@ -58,9 +46,11 @@ namespace BattleShipPublicSDK
 
         Vector2 p2GridLocation = new Vector2(500, 75);
 
-        string winnerText = "";
+        string statusText = "";
 
         IEnumerable<Type> botTypes;
+
+        MatchResult result;
 
         Queue<Turn> turns = new Queue<Turn>();
 
@@ -82,16 +72,16 @@ namespace BattleShipPublicSDK
                 Raylib.BeginDrawing();
                 Raylib.ClearBackground(altColor);
 
-                bool isRunPressed = ComponentLib.DrawButton("Run Match", rectRunMatch, true);
+                bool isRunPressed = ComponentLib.DrawButton("Run Match", rectRunMatch, true, turns.Count <= 0);
 
                 if(isRunPressed && p1Index >= 0 && p2Index >= 0)
                 {
-                    winnerText = "";
+                    statusText = "Running match...";
 
                     IBattleshipAI p1 = InstantiateAI(p1Index);
                     IBattleshipAI p2 = InstantiateAI(p2Index);
 
-                    MatchResult result = game.RunMatch(p1, p2);
+                    result = game.RunMatch(p1, p2);
                     p1Grid = InitialiseGrid(result.Player1Ships);
                     p2Grid = InitialiseGrid(result.Player2Ships);
 
@@ -111,21 +101,25 @@ namespace BattleShipPublicSDK
                     {
                         UpdateGrid(ref p1Grid, turn.ShotResult);
                     }
+
+                    if(turns.Count == 0)
+                    {
+                        statusText = "Match complete! Winner: " + result.Winner.ToString();
+                    }
                 }
+                              
 
                 ComponentLib.DrawGrid(p1Grid, p1GridLocation);
 
                 ComponentLib.DrawGrid(p2Grid, p2GridLocation);
 
-                ComponentLib.DrawDropdown(bots, rectSelectP1, ref p1Index, ref isP1ListOpen);
+                ComponentLib.DrawDropdown(bots, rectSelectP1, ref p1Index, ref isP1ListOpen, turns.Count <= 0);
 
-                ComponentLib.DrawDropdown(bots, rectSelectP2, ref p2Index, ref isP2ListOpen);
-
-                
+                ComponentLib.DrawDropdown(bots, rectSelectP2, ref p2Index, ref isP2ListOpen, turns.Count <= 0);
 
                 Raylib.EndDrawing();
 
-                Raylib.DrawText(winnerText, 20, 430, 20, mainColor);
+                Raylib.DrawText(statusText, 20, 430, 20, mainColor);
 
 
             }
