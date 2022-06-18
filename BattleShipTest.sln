@@ -5,7 +5,9 @@ VisualStudioVersion = 17.1.32210.238
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BattleShipPublicSDK", "BattleShipTest\BattleShipPublicSDK.csproj", "{1B50F679-E190-444D-A1B5-B4AFB7BF25A9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BattleShipCore", "BattleShipCore\BattleShipCore.csproj", "{B6F4B250-3D24-4031-919B-B425D31E1228}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BattleShipCore", "BattleShipCore\BattleShipCore.csproj", "{B6F4B250-3D24-4031-919B-B425D31E1228}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "BattleShipPythonPublicSDK", "BattleShipPythonPublicSDK\BattleShipPythonPublicSDK.pyproj", "{016F2C7B-5C78-432B-AA03-9D65BE3F81CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,8 @@ Global
 		{B6F4B250-3D24-4031-919B-B425D31E1228}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6F4B250-3D24-4031-919B-B425D31E1228}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6F4B250-3D24-4031-919B-B425D31E1228}.Release|Any CPU.Build.0 = Release|Any CPU
+		{016F2C7B-5C78-432B-AA03-9D65BE3F81CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{016F2C7B-5C78-432B-AA03-9D65BE3F81CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
